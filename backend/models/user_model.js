@@ -26,6 +26,7 @@ const userSchema = new mongoose.Schema({
 
     profileImahe: {
         type: String,
+        required:true
 
 
     },
