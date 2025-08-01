@@ -7,6 +7,8 @@ import { serverUrl } from '../App';
 import axios from "axios"
 import { ClipLoader} from 'react-spinners'
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setUserData } from '../redux/userSlice.js';
 
 const SignUp = () => {
 
@@ -33,23 +35,30 @@ const SignUp = () => {
   const [email,setEmail] = useState(false)
   const [userName,setUserName] = useState(false)
   const [password,setPassword] = useState(false)
+  const [err,setErr]= useState("")
 
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
 
   // access register 
 
   const handleSingup = async () => {
+    setErr("")
     setLoading(true)
+
     try {
       const result = await axios.post(`${serverUrl}/api/auth/signup`,
         {name,email,userName,password},{withCredentials:true})
 
-      console.log(result.data);
+        dispatch(setUserData(result.data))
+
+      
 
       setLoading(false)
       
     } catch (error) {
+      setErr(error.response?.data.message)
       console.log(error);
       setLoading(false)
       
@@ -124,7 +133,10 @@ const SignUp = () => {
 
           </div>
 
+             {/* error  */}
 
+
+             {err && <p className='text-red-500'> {err}</p>}
           {/* // sign up button */}
 
           <button className='w-[70%] px-[20px] py-[10px] bg-black text-white font-semibold h-[50px]
