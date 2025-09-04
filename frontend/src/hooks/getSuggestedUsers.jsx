@@ -1,10 +1,10 @@
 import axios from 'axios'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { setsuggestedUser } from '../redux/userSlice.js'
+import { setsuggestedUsers } from '../redux/userSlice.js'
 import { serverUrl } from '../App.jsx'
 
-const getSuggestedUser = () => {
+const getSuggestedUsers = () => {
 
     const dispatch = useDispatch()
 
@@ -17,10 +17,11 @@ const getSuggestedUser = () => {
         try {
             const result = await axios.get(`${serverUrl}/api/user/suggested`,{withCredentials:true})
 
-            dispatch(setsuggestedUser(result.data))
+            dispatch(setsuggestedUsers(result.data))
 
         } catch (error) {
-            
+             console.log(error);
+             
         }
 
     }
@@ -29,4 +30,4 @@ const getSuggestedUser = () => {
   },[userData])
 }
 
-export default getSuggestedUser
+export default getSuggestedUsers

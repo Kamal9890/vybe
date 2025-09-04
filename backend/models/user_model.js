@@ -26,9 +26,21 @@ const userSchema = new mongoose.Schema({
 
     profileImage: {
         type: String,
-       
 
+    },
 
+    bio: {
+        type: String,
+    },
+
+    profession: {
+        type: String,
+    },
+    
+
+    gender: {
+        type: String,
+        enum:["male","female","other"]
     },
 
     followers: [
@@ -44,7 +56,7 @@ const userSchema = new mongoose.Schema({
             ref: "User"
         }
     ],
-    post: [{
+    posts: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Post"
     }],
@@ -56,26 +68,26 @@ const userSchema = new mongoose.Schema({
 
     ],
 
-    loops :[
+    loops: [
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Loop"
         }
     ],
-    story:{
+    story: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Story"
     },
-    resetOtp:{
-        type:String,
+    resetOtp: {
+        type: String,
 
     },
-    otpExpires:{
-        type:Date
+    otpExpires: {
+        type: Date
     },
-    isOtpVerified:{
-        type:Boolean,
-        default:false,
+    isOtpVerified: {
+        type: Boolean,
+        default: false,
     }
 
 

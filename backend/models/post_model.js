@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 
 const postSchema = new mongoose.Schema({
 
-    autor: {
+    author: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
         required: true
@@ -18,21 +18,31 @@ const postSchema = new mongoose.Schema({
 
     media: {
         type: String,
-        require: true
+        required: true
     },
     caption: {
         type: String
-        
+
     },
 
-    like:[ {
+    likes: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref:"User"
+        ref: "User"
     }],
-    comments:[ {
-        type: mongoose.Schema.Types.ObjectId,
-        ref:"User"
-    }]
+    comments: [
+        {
+            author:
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "User",
+            }, 
+            message: {
+                type: String,
+
+            },
+            
+
+        }]
 
 
 
@@ -40,5 +50,5 @@ const postSchema = new mongoose.Schema({
 }, { timestamps: true })
 
 
-const Post = mongoose.model("Post",postSchema)
+const Post = mongoose.model("Post", postSchema)
 export default Post
