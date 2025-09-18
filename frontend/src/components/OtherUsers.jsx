@@ -2,6 +2,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import dp from "../assets/dp.png"
 import { useNavigate } from 'react-router'
+import FollowButton from './FollowButton'
 
 const OtherUsers = ({ user }) => {
 
@@ -30,8 +31,11 @@ const OtherUsers = ({ user }) => {
 
             {/* // follow buttton  */}
 
+            <FollowButton tailwind={'px-[10px] w-[100px] py-[5px] h-[40px] bg-green-600 rounded-2xl cursor-pointer '}
+            targetUserId={user._id}/>
 
-            <button className='px-[10px] w-[100px] py-[5px] h-[40px] bg-green-600 rounded-2xl '>Follow</button>
+
+            
 
 
 

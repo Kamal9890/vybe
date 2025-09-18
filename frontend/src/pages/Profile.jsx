@@ -7,6 +7,7 @@ import { setProfileData, setUserData } from '../redux/userSlice'
 import { IoArrowBackSharp } from "react-icons/io5";
 import dp from "../assets/dp.png"
 import Nav from '../components/Nav'
+import FollowButton from '../components/FollowButton'
 
 const Profile = () => {
 
@@ -73,6 +74,7 @@ const Profile = () => {
             <div className='w-full h-[150px] flex items-start gap-[20px] lg:gap-[50px] pt-[20px] px-[10px] justify-center '>
 
                 {/* Profile dekhon */}
+                
                 <div className=' w-[80px] h-[80px] md:w-[140px] md:h-[140px] border-2 border-black rounded-full cursor-pointer overflow-hidden '>
 
                     <img src={profileData?.profileImage || dp} alt="" className='w-full object-cover ' />
@@ -109,22 +111,18 @@ const Profile = () => {
                     <div className='flex items-center justify-center gap-[20px] '>
                         
                         <div className='flex relative'>
-                            <div className='w-[40px] h-[40px]  border-2 border-black rounded-full cursor-pointer overflow-hidden '>
+                            {profileData?.followers?.slice(0, 3).map((user,index)=>
+                            (
+                            <div className={`w-[40px] h-[40px]  border-2 border-black rounded-full cursor-pointer
+                             overflow-hidden ${index > 0? `absolute left-[${index*9}]`:""}`}>
 
-                                <img src={userData?.profileImage || dp} alt="" className='w-full object-cover ' />
-
-                            </div>
-                            <div className='w-[40px] h-[40px] absolute left-[10px]  border-2 border-black rounded-full cursor-pointer overflow-hidden '>
-
-                                <img src={userData?.profileImage || dp} alt="" className='w-full object-cover ' />
+                                <img src={user?.profileImage || dp} alt="" className='w-full object-cover ' />
 
                             </div>
 
-                            <div className='w-[40px] h-[40px] absolute left-[20px]  border-2 border-black rounded-full cursor-pointer overflow-hidden '>
-
-                                <img src={userData?.profileImage || dp} alt="" className='w-full object-cover ' />
-
-                            </div>
+                            ))}
+                            
+                           
 
                         </div>
                         <div  className='text-white text-[22px] md:text-[30px] font-semibold '>
@@ -149,7 +147,8 @@ const Profile = () => {
                                 <img src={userData?.profileImage || dp} alt="" className='w-full object-cover ' />
 
                             </div>
-                            <div className='w-[40px] h-[40px] absolute left-[10px]  border-2 border-black rounded-full cursor-pointer overflow-hidden '>
+                            <div className='w-[40px] h-[40px] absolute left-[10px]  border-2 border-black
+                             rounded-full cursor-pointer overflow-hidden '>
 
                                 <img src={userData?.profileImage || dp} alt="" className='w-full object-cover ' />
 
@@ -184,8 +183,11 @@ const Profile = () => {
 
                 {profileData?._id != userData._id && 
                   <>
-                    <button className='px-[10px] min-w-[150px] py-[5px] h-[40px] bg-[white] cursor-pointer rounded-2xl '>Follow</button> 
-                    <button className='px-[10px] min-w-[150px] py-[5px] h-[40px] bg-[white] cursor-pointer rounded-2xl '>Message</button> 
+                     <FollowButton tailwind={'px-[10px] min-w-[150px] py-[5px] h-[40px] bg-[white] cursor-pointer rounded-2xl '} 
+                     targetUserId={profileData?._id} onFollowChange = {handleProfile}/>
+                   
+                    <button className='px-[10px] min-w-[150px] py-[5px] h-[40px]
+                     bg-[white] cursor-pointer rounded-2xl '>Message</button> 
 
 
                   </>

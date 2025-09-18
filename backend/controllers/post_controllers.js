@@ -151,7 +151,7 @@ export const saved = async (req,res) => {
 
         await user.save()
 
-       await user.populate( "saved")
+        user.populate("saved")
 
         return res.status(200).json(user)
 

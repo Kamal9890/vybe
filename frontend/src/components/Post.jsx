@@ -8,6 +8,8 @@ import { IoSendSharp } from 'react-icons/io5'
 import axios from 'axios'
 import { serverUrl } from '../App'
 import { setPostData } from '../redux/postSlice'
+import { setUserData } from '../redux/userSlice'
+import FollowButton from './FollowButton'
 
 const Post = ({ post }) => {
 
@@ -51,6 +53,22 @@ const Post = ({ post }) => {
   }
 
 
+  // saved post 
+
+  const handleSaved = async () => {
+     try {
+      const result = await axios.get(`${serverUrl}/api/post/saved/${post._id}`, { withCredentials: true })
+      disPatch(setUserData(result.data))
+
+      
+
+    } catch (error) {
+      console.log(error);
+
+    }
+  }
+
+
 
   return (
     <div className='w-[90%]  flex flex-col gap-[10px] bg-white items-center shadow-2xl shadow-[#00000058]
@@ -66,21 +84,30 @@ const Post = ({ post }) => {
           <div className='w-[150px] font-semibold truncate '>{post.author.userName}</div>
         </div>
 
-        <button className=" px-[10px]  md:w-[100px] py=[5px] h-[30px] md:h-[40px] bg-[#fe5252] text-white
-             rounded-xl text-[14px] md:text-[16px] cursor-pointer ">Follow</button>
+
+        {/* follow button  */}
+        {
+          userData._id != post.author._id &&
+          <FollowButton tailwind={'px-[10px] md:w-[100px] py=[5px] h-[30px] md:h-[40px] bg-[#fe5252] text-white rounded-xl text-[14px] md:text-[16px] cursor-pointer'}
+             targetUserId={post.author._id}/>
+
+        }
+
+        
+       
 
       </div>
 
       <div className='w-[90%] flex items-center justify-center  '>
 
-        {post.mediaType == "image" &&
+        {post.mediaType === "image" &&
           <div className='w-[90%]  flex  items-center justify-center  '>
             <img src={post.media} alt="" className='w-[80%] rounded-2xl max:w-full object-cover ' />
 
           </div>}
 
-        {post.mediaType == "video" &&
-          <div className='w-[80% flex flex-col items-center justify-center
+        {post.mediaType === "video" &&
+          <div className='w-[80%] h-[250px] flex flex-col items-center justify-center  
                     '>
             <VideoPlayer media={post.media} />
 
@@ -109,7 +136,9 @@ const Post = ({ post }) => {
             {post.likes.includes(userData._id) && <GoHeartFill className='w-[30px] cursor-pointer h-[30px] text-[#fe5252]' onClick={handleLike} />}
             <span >{post.likes.length}</span>
           </div>
-          <div className='flex justify-center items-center gap-[5px] ' onClick={()=>setShowComment(prev=>!prev)}>
+
+          {/* // comments  */}
+          <div className='flex justify-center items-center gap-[5px] ' onClick={() => setShowComment(prev => !prev)}>
             < MdOutlineComment className='w-[30px] cursor-pointer h-[30px]' />
             <span>{post.comments.length}</span>
           </div>
@@ -118,7 +147,7 @@ const Post = ({ post }) => {
 
 
         {/* right icon for save   */}
-        <div>
+        <div onClick={handleSaved}>
           {!userData.saved.includes(post?._id) && <MdOutlineBookmarkBorder className='w-[30px] cursor-pointer h-[30px]' />}
           {userData.saved.includes(post?._id) && <GoBookmarkFill className='w-[30px] cursor-pointer h-[30px]' />}
         </div>
@@ -128,8 +157,8 @@ const Post = ({ post }) => {
       {/* caption div  */}
 
       {post.caption &&
-        <div className=' w-full px-[20px] gap-[10px] flex flex-col justify-start itemms-center '>
-          <h1 className='text-2xl font-bold text-[#fe5252] '> {post.author?.userName} </h1>
+        <div className=' w-full px-[20px] gap-[10px] flex  justify-start items-center  '>
+          <h1 className='text-xl font-semibold text-black '> {post.author?.userName} </h1>
           <div>
             {post.caption}
 
@@ -152,7 +181,7 @@ const Post = ({ post }) => {
               < IoSendSharp className='w-[30px] cursor-pointer h-[30px]' />
             </button>
           </div>
-          <div className='w-full max-h[300px] overflow-auto '>
+          <div className='w-full max-h-[300px] overflow-auto '>
 
             {
               post.comments?.map((postcomment, index) => (

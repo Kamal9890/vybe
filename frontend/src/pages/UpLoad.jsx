@@ -184,7 +184,7 @@ const UpLoad = () => {
 
             { mediaType == "image" &&
             <div className='w-[80%] max-w-[500px] h-[250px] flex flex-col items-center justify-center mt-[5vh] '>
-              <img src={frontendMedia} alt="" className='h-[870%] rounded-2xl' />
+              <img src={frontendMedia} alt="" className='h-[80%] rounded-2xl' />
               {
                 uploadType!="story" &&  <input type="text" className='w-full border-b-gray-400 border-b-2 outline-none px-[10px] text-white mt-[20px]
                ' placeholder='Write caption' onChange={(e)=>setCaption(e.target.value)} value={caption}/>
@@ -194,10 +194,10 @@ const UpLoad = () => {
               </div>}
 
               { mediaType == "video" &&
-            <div className='w-[80%] max-w-[500px] h-[250px] flex flex-col items-center justify-center mt-[5vh] '>
+            <div className='w-[80%] max-w-[500px] flex flex-col items-center justify-center mt-[5vh] '>
               <VideoPlayer media= {frontendMedia}/>
               {
-                uploadType!="story" &&  <input type="text" className='w-full border-b-gray-400 border-b-2 outline-none px-[10px] text-white mt-[20px]
+                uploadType != "story" &&  <input type="text" className='w-full border-b-gray-400 border-b-2 outline-none px-[10px] text-white mt-[20px]
                ' placeholder='Write caption' onChange={(e)=>setCaption(e.target.value)} value={caption}/>
             
           
